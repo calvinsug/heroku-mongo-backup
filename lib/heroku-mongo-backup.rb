@@ -83,11 +83,11 @@ module HerokuMongoBackup
 
     def db_connect
       uri = URI.parse(@url)
-      connection = ::Mongo::Connection.new(uri.host, uri.port)
+      connection = ::Mongo::Client.new(uri.host)
       @db = connection.db(uri.path.gsub(/^\//, ''))
       @db.authenticate(uri.user, uri.password) if uri.user
     end
-    
+
     def ftp_connect
       @ftp = Net::FTP.new(ENV['FTP_HOST'])
       @ftp.passive = true
@@ -137,6 +137,9 @@ module HerokuMongoBackup
       if access_key_id.nil?
         access_key_id   = ENV['AWS_ACCESS_KEY_ID']
       end
+      if access_key_id.nil?
+        access_key_id   = ENV['S3_ACCESS_KEY']
+      end
 
       secret_access_key = ENV['S3_SECRET_KEY']
       if secret_access_key.nil?
@@ -175,7 +178,10 @@ module HerokuMongoBackup
         end
         if uri.nil?
           uri = ENV['MONGOLAB_URI']
-        end          
+        end
+        if uri.nil?
+          uri = ENV['MONGODB_URI']
+        end
       
       else
         mongoid_config  = YAML.load_file("config/mongoid.yml")

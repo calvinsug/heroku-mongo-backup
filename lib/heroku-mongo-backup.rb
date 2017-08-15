@@ -82,10 +82,8 @@ module HerokuMongoBackup
     end
 
     def db_connect
-      uri = URI.parse(@url)
-      connection = ::Mongo::Client.new(uri.host)
-      @db = connection.db(uri.path.gsub(/^\//, ''))
-      @db.authenticate(uri.user, uri.password) if uri.user
+      connection = ::Mongo::Client.new(@url)
+      @db = connection.database
     end
 
     def ftp_connect

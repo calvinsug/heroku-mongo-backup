@@ -104,6 +104,7 @@ if defined?(Fog)
   def HerokuMongoBackup::s3_connect(bucket, key, secret)
     connection = Fog::Storage.new({
       :provider                 => 'AWS',
+      :region                   => ENV['AWS_REGION'],
       :aws_access_key_id        => key,
       :aws_secret_access_key    => secret
     })
@@ -140,7 +141,3 @@ else
   logging = Logger.new(STDOUT)
   logging.error "\n\nheroku-mongo-backup: Please include 's3', 'aws/s3' or 'fog' gem in applications Gemfile for uploading backup to S3 bucket. (ignore this if using FTP)\n\n"
 end
-
-
-
-

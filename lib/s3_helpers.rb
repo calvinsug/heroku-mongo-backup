@@ -46,8 +46,6 @@ if defined?(S3)
 
 end
 
-
-
 begin
   require 'aws/s3'
 rescue LoadError
@@ -104,6 +102,7 @@ if defined?(Fog)
   def HerokuMongoBackup::s3_connect(bucket, key, secret)
     connection = Fog::Storage.new({
       :provider                 => 'AWS',
+      :region                   => ENV['AWS_REGION'],
       :aws_access_key_id        => key,
       :aws_secret_access_key    => secret
     })

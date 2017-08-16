@@ -113,6 +113,9 @@ module HerokuMongoBackup
       if access_key_id.nil?
         access_key_id   = ENV['AWS_ACCESS_KEY_ID']
       end
+      if access_key_id.nil?
+        access_key_id   = ENV['S3_ACCESS_KEY']
+      end
 
       secret_access_key = ENV['S3_SECRET_KEY']
       if secret_access_key.nil?

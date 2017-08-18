@@ -61,7 +61,7 @@ module HerokuMongoBackup
         documents.each { |doc| session[collection_name].insert_one(doc) }
       end
 
-      Rake::Task['db:mongoid:create_indexes'].invoke
+      #Rake::Task['db:mongoid:create_indexes'].invoke
     end
 
     def ftp_connect
